@@ -22,27 +22,6 @@ programs.steam = {
   remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
   dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
 };
-# Remove Gnome packages
- environment.gnome.excludePackages = with pkgs.gnome; [
-    baobab      # disk usage analyzer
-    cheese      # photo booth
-    eog         # image viewer
-    epiphany    # web browser
-    gedit       # text editor
-    simple-scan # document scanner
-    totem       # video player
-    yelp        # help viewer
-    evince      # document viewer
-    file-roller # archive manager
-    geary       # email client
-    seahorse    # password manager
-
-    # these should be self explanatory
-    #gnome-calendar  
-    gnome-weather gnome-calculator gnome-characters gnome-clocks gnome-contacts
-    gnome-font-viewer gnome-logs gnome-maps gnome-music gnome-screenshot
-    gnome-disk-utility pkgs.gnome-connections
-  ];
 
 #Flatpak
 services.flatpak.enable = true;
@@ -95,10 +74,8 @@ services.pcscd.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -146,8 +123,7 @@ services.pcscd.enable = true;
 	signal-desktop
 	gimp
 	rpcs3
-	chromium
-        betterbird
+	betterbird
 	qbittorrent
 	vlc
 	heroic
@@ -171,6 +147,10 @@ services.pcscd.enable = true;
 	jdk17
 	yuzu-mainline
 	dolphin-emu
+	maestral-gui
+	chromium
+        
+
     ];
   };
 
@@ -212,7 +192,9 @@ nixpkgs.config = {
 	cdemu-client
 	cdemu-daemon
 	wineasio
-	
+	gnomeExtensions.arcmenu
+	nfs-utils
+
 	
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
@@ -224,6 +206,17 @@ nixpkgs.config = {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+ programs.chromium = {
+  enable = true;
+  extensions = [
+"cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+"eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
+"gebbhagfogifgggkldgodflihgfeippi" # Return YouTube Dislike
+"mnjggcdmjocbbbhaepdhchncahnbgone" # SponsorBlock for YouTube
+"cmjhejfkhdonjimgkinjdombabgfbcal" # YouTube Livestreams Theater Mode
+ ];
+};
 
   # List services that you want to enable:
 	services.adguardhome.enable = true;
